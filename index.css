@@ -83,6 +83,10 @@ body {
     border-radius: 12px;
 }
 
+.delete {
+    background-color: orangered;
+}
+
 #row1 {
     padding-top: 10px;
 }
