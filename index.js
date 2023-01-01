@@ -5,11 +5,13 @@ $(document).ready(function () {
         e.preventDefault();
         if ($(this).html() === "=") {
             let result = handleEval($("#display").text());
+            console.log(result);
             $("#answer").text(result);
         } else if ($(this).html() === "DEL") {
             $("#display").text($("#display").text().slice(0, -1))
         } else if ($(this).html() === "AC") {
             $("#display").text("");
+            $("#answer").text("");
         } else {
             $("#display").append($(this).html());
         }
@@ -18,6 +20,11 @@ $(document).ready(function () {
 
 function handleEval (text) {
     // convert infix to postfix
+
+    // values to test if postfix expression is true
+    let operands = 0;
+    let operators = 0;
+
     let stack = [];
     let queue = [];
 
@@ -29,16 +36,34 @@ function handleEval (text) {
             if (number !== '') {
                 queue.push(Number(number));
                 number = '';
+                operands++;
             }
+
             if (text[i] === "(") {
                 stack.push(text[i]);
+                if (text[i+1] === "-") {
+                    queue.push(0);
+                    operands++;
+                }
             } else if (text[i] === '×' || text[i] === '÷') {
-                stack.push(text[i]);
-            } else if (text[i] === '+' || text[i] === '-') {
                 while (stack[stack.length-1] === "×" || stack[stack.length-1] === "÷") {
                     queue.push(stack.pop());
                 }
                 stack.push(text[i]);
+                operators++;
+            } else if (text[i] === '+' || text[i] === '-') {
+                if (i===0) {
+                    queue.push(0);
+                    operands++;
+                };
+                while (stack[stack.length-1] === "×" 
+                || stack[stack.length-1] === "÷"
+                || stack[stack.length-1] === "-"
+                || stack[stack.length-1] === "+") {
+                    queue.push(stack.pop());
+                }
+                stack.push(text[i]);
+                operators++;
             } else if (text[i] === ")") {
                 while (stack[stack.length-1] !== "(") {
                     queue.push(stack.pop());
@@ -47,19 +72,32 @@ function handleEval (text) {
                 stack.pop()
             }
         }
-        //console.log(queue);
-        //console.log(stack);
     }
 
     if (number !== '') {
         queue.push(Number(number));
+        operands++;
     }
 
     while (stack.length > 0) {
         queue.push(stack.pop());
     }
+
     console.log(queue);
-    return evalPostfix(queue);
+    console.log(isNaN(queue[0]))
+    console.log(isNaN(queue[1]))
+    console.log(isNaN(queue[queue.length-1]))
+    console.log(operands-operators)
+
+    // check if postfix expression is valid
+    if (isNaN(queue[0]) === false
+     && isNaN(queue[1]) === false
+     && isNaN(queue[queue.length-1]) === true
+     && operands-operators === 1) {
+        return evalPostfix(queue);
+     } else {
+        return 'Syntax Error'
+     }
 }
 
 function evalPostfix (expression) {
@@ -71,8 +109,8 @@ function evalPostfix (expression) {
         } else {
             // is operator
             // pop two operands from stack
-            one = stack.pop();
             two = stack.pop();
+            one = stack.pop();
             
             if (expression[i] === '+') {
                 stack.push(one+two);
