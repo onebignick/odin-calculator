@@ -1,0 +1,77 @@
+.container {
+    background-color: #242526;
+    margin: auto;
+    max-width: 320px;
+    border-radius: 12px;
+}
+
+#hero-text {
+    display: flex;
+    color: #B0B3B8;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+}
+
+#casio {
+    font-weight: 600;
+}
+
+#header {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: maroon;
+    font-weight: 600;
+}
+
+.screen {
+    display: flex;
+    flex-direction: column;
+    max-width: 270px;
+    height: 80px;
+    font-size:30px;
+    background-color: aliceblue;
+    margin: auto;
+    border-radius: 4px;
+    padding: 10px 10px;
+    justify-content: space-between;
+}
+
+#answer {
+    height: 30px;
+    text-align: right;
+}
+
+#display {
+    height: 30px;
+    text-align: left;
+}
+
+.container > .container-row {
+    display: flex;
+    justify-content: center;
+    padding: 2px;
+    gap:2px;
+}
+
+.button {
+    display: flex;
+    height: 30px;
+    width: 50px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}
+
+#row1 {
+    padding-top: 10px;
+}
+
+#row5 {
+    padding-bottom: 20px
+}
