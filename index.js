@@ -30,10 +30,13 @@ function handleEval (text) {
 
     let number = '';
     for (let i=0; i < text.length; i++) {
-        if (!isNaN(text[i]) === true) {
+        if (!isNaN(text[i]) === true || text[i] === '.') {
             number = number + text[i];
         } else {
             if (number !== '') {
+                if (number[number.length-1] === '.') {
+                    number = number + '0';
+                };
                 queue.push(Number(number));
                 number = '';
                 operands++;
@@ -75,6 +78,9 @@ function handleEval (text) {
     }
 
     if (number !== '') {
+        if (number[number.length-1] === '.') {
+            number = number + '0';
+        };
         queue.push(Number(number));
         operands++;
     }
